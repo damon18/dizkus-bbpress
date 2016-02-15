@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bbPress phpBB 3.x Converter
+ * Dizkus Zikula vX.X Converter
  *
  * @package bbPress
  * @subpackage Converters
@@ -10,7 +10,7 @@
 /**
  * Implementation of phpBB v3 Converter.
  *
- * @since 2.3.0 bbPress (r4689)
+ * @since 2.6.0 bbPress (rXXXX)
  *
  * @link Codex Docs https://codex.bbpress.org/import-forums/phpbb
  */
@@ -117,20 +117,16 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum type (Category = 0 or Forum = 1, Stored in postmeta)
 		$this->field_map[] = array(
-//			'from_tablename'  => 'zk_dizkus_forums',
-//			'from_fieldname'  => 'forum_type',
-			'to_type'         => 'forum',
-			'to_fieldname'    => '_bbp_forum_type',
-			'callback_method' => 'callback_forum_type'
+			'to_type'      => 'forum',
+			'to_fieldname' => '_bbp_forum_type',
+			'default'      => 'forum',
 		);
 
 		// Forum status (Unlocked = 0 or Locked = 1, Stored in postmeta)
 		$this->field_map[] = array(
-//			'from_tablename'  => 'zk_dizkus_forums',
-//			'from_fieldname'  => 'forum_status',
-			'to_type'         => 'forum',
-			'to_fieldname'    => '_bbp_status',
-			'callback_method' => 'callback_forum_status'
+			'to_type'      => 'forum',
+			'to_fieldname' => '_bbp_status',
+			'default'      => 'open',
 		);
 
 		// Forum dates.
@@ -159,7 +155,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Subscribed forum ID (Stored in usermeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_forum_subscription',
+			'from_tablename'  => 'zk_dizkus_subscription',
 			'from_fieldname'  => 'forum_id',
 			'to_type'         => 'forum_subscriptions',
 			'to_fieldname'    => '_bbp_forum_subscriptions'
@@ -167,7 +163,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Subscribed user ID (Stored in usermeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_forum_subscription',
+			'from_tablename'  => 'zk_dizkus_subscription',
 			'from_fieldname'  => 'user_id',
 			'to_type'         => 'forum_subscriptions',
 			'to_fieldname'    => 'user_id',
@@ -236,7 +232,6 @@ class dizkusZK extends BBP_Converter_Base {
 			'to_fieldname'    => '_bbp_old_is_topic_anonymous_id',
 			'callback_method' => 'callback_check_anonymous'
 		);
-
 
 		// Topic content.
 		// Note: We join the 'posts' table because 'topics' does not include topic content.
@@ -517,29 +512,21 @@ class dizkusZK extends BBP_Converter_Base {
 //			'join_tablename'  => 'zk_dizkus_users',
 //			'join_type'       => 'INNER',
 //			'join_expression' => 'USING (user_id) WHERE zk_users.pn_uid = zk_dizkus_users.user_id',
-			'to_type'         => 'user',
-			'to_fieldname'    => '_bbp_password',
-			'callback_method' => 'calback_savepass'
-		);
-
-		// Store old user salt (This is only used for the SELECT row info for the above password save)
-		$this->field_map[] = array(
-//			'from_tablename'  => 'zk_dizkus_users',
-//			'from_fieldname' => 'user_form_salt',
-			'to_type'        => 'user',
-			'to_fieldname'   => ''
+			'to_type'      => 'user',
+			'to_fieldname' => '_bbp_password',
+			'default'      => 'open',
 		);
 
 		// User password verify class (Stored in usermeta for verifying password)
 		$this->field_map[] = array(
 			'to_type'      => 'user',
 			'to_fieldname' => '_bbp_class',
-			'default'      => 'zikula'
+			'default'      => 'dizkusZK'
 		);
 
 		// User name.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
+			'from_tablename' => 'zk_users',
 			'from_fieldname' => 'pn_uname',
 			'to_type'        => 'user',
 			'to_fieldname'   => 'user_login'
@@ -547,7 +534,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// User email.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
+			'from_tablename' => 'zk_users',
 			'from_fieldname' => 'pn_email',
 			'to_type'        => 'user',
 			'to_fieldname'   => 'user_email'
@@ -556,9 +543,9 @@ class dizkusZK extends BBP_Converter_Base {
 		// User homepage.
 		$this->field_map[] = array(
 			'from_tablename'  => 'zk_users',
-			'from_fieldname' => 'pn_url',
-			'to_type'        => 'user',
-			'to_fieldname'   => 'user_url'
+			'from_fieldname'  => 'pn_url',
+			'to_type'         => 'user',
+			'to_fieldname'    => 'user_url'
 		);
 
 		// User registered.
@@ -570,13 +557,9 @@ class dizkusZK extends BBP_Converter_Base {
 			'callback_method' => 'callback_datetime'
 		);
 
-		
-
-		
-
 		// Store Avatar Filename (Stored in usermeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
+			'from_tablename' => 'zk_users',
 			'from_fieldname' => 'pn_user_avatar',
 			'to_type'        => 'user',
 			'to_fieldname'   => '_bbp_dizkus_user_avatar'
@@ -714,46 +697,6 @@ class dizkusZK extends BBP_Converter_Base {
 		} while ( $i < $count );
 
 		return $output;
-	}
-
-	/**
-	 * Translate the forum type from phpBB v3.x numeric's to WordPress's strings.
-	 *
-	 * @param int $status phpBB v3.x numeric forum type
-	 * @return string WordPress safe
-	 */
-	public function callback_forum_type( $status = 1 ) {
-		switch ( $status ) {
-			case 0 :
-				$status = 'category';
-				break;
-
-			case 1  :
-			default :
-				$status = 'forum';
-				break;
-		}
-		return $status;
-	}
-
-	/**
-	 * Translate the forum status from phpBB v3.x numeric's to WordPress's strings.
-	 *
-	 * @param int $status phpBB v3.x numeric forum status
-	 * @return string WordPress safe
-	 */
-	public function callback_forum_status( $status = 0 ) {
-		switch ( $status ) {
-			case 1 :
-				$status = 'closed';
-				break;
-
-			case 0  :
-			default :
-				$status = 'open';
-				break;
-		}
-		return $status;
 	}
 
 	/**
