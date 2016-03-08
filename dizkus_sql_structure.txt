@@ -1,0 +1,1187 @@
+CREATE TABLE `nuke_admin_category` (
+  `pn_cid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(32) NOT NULL DEFAULT '',
+  `pn_description` varchar(254) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_cid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_admin_module` (
+  `pn_amid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_mid` int(11) NOT NULL DEFAULT '0',
+  `pn_cid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_amid`),
+  KEY `mid_cid` (`pn_mid`,`pn_cid`),
+  KEY `mid` (`pn_mid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_advanced_polls_data` (
+  `pn_pollid` int(11) NOT NULL DEFAULT '0',
+  `pn_optiontext` varchar(255) NOT NULL DEFAULT '',
+  `pn_optionid` int(11) NOT NULL DEFAULT '0',
+  `pn_optioncolour` varchar(7) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_advanced_polls_desc` (
+  `pn_pollid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_urltitle` varchar(120) NOT NULL DEFAULT '',
+  `pn_description` longtext,
+  `pn_optioncount` int(11) NOT NULL DEFAULT '0',
+  `pn_opendate` int(11) NOT NULL DEFAULT '0',
+  `pn_closedate` int(11) NOT NULL DEFAULT '0',
+  `pn_recurring` int(11) NOT NULL DEFAULT '0',
+  `pn_recurringoffset` int(11) NOT NULL DEFAULT '0',
+  `pn_recurringinterval` int(11) NOT NULL DEFAULT '0',
+  `pn_multipleselect` int(11) NOT NULL DEFAULT '0',
+  `pn_multipleselectcount` int(11) NOT NULL DEFAULT '0',
+  `pn_voteauthtype` int(11) NOT NULL DEFAULT '0',
+  `pn_tiebreakalg` int(11) NOT NULL DEFAULT '0',
+  `pn_language` varchar(30) NOT NULL DEFAULT '',
+  `pn_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `pn_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_pollid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_advanced_polls_votes` (
+  `pn_ip` varchar(20) NOT NULL DEFAULT '',
+  `pn_time` varchar(14) NOT NULL DEFAULT '',
+  `pn_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_voterank` int(11) NOT NULL DEFAULT '0',
+  `pn_pollid` int(11) NOT NULL DEFAULT '0',
+  `pn_optionid` int(11) NOT NULL DEFAULT '0',
+  `pn_voteid` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`pn_voteid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_bad_behavior` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` text NOT NULL,
+  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `request_method` text NOT NULL,
+  `request_uri` text NOT NULL,
+  `server_protocol` text NOT NULL,
+  `http_headers` text NOT NULL,
+  `user_agent` text NOT NULL,
+  `request_entity` text NOT NULL,
+  `key` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ip` (`ip`(15)),
+  KEY `user_agent` (`user_agent`(10))
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_blocks` (
+  `pn_bid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_bkey` varchar(255) NOT NULL DEFAULT '',
+  `pn_title` varchar(255) NOT NULL DEFAULT '',
+  `pn_content` longtext NOT NULL,
+  `pn_url` longtext NOT NULL,
+  `pn_mid` int(11) NOT NULL DEFAULT '0',
+  `pn_position` char(1) NOT NULL DEFAULT 'l',
+  `pn_weight` decimal(10,1) NOT NULL DEFAULT '0.0',
+  `pn_active` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_refresh` int(11) NOT NULL DEFAULT '0',
+  `pn_last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `pn_language` varchar(30) NOT NULL DEFAULT '',
+  `pn_collapsable` int(11) NOT NULL DEFAULT '1',
+  `pn_defaultstate` int(11) NOT NULL DEFAULT '1',
+  `pn_filter` longtext NOT NULL,
+  PRIMARY KEY (`pn_bid`),
+  KEY `active_idx` (`pn_active`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_block_placements` (
+  `pn_pid` int(11) NOT NULL DEFAULT '0',
+  `pn_bid` int(11) NOT NULL DEFAULT '0',
+  `pn_order` int(11) NOT NULL DEFAULT '0',
+  KEY `bid_pid_idx` (`pn_bid`,`pn_pid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_block_positions` (
+  `pn_pid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(255) NOT NULL DEFAULT '',
+  `pn_description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_pid`),
+  KEY `name_idx` (`pn_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_categories_category` (
+  `cat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cat_parent_id` int(11) NOT NULL DEFAULT '1',
+  `cat_is_locked` tinyint(4) NOT NULL DEFAULT '0',
+  `cat_is_leaf` tinyint(4) NOT NULL DEFAULT '0',
+  `cat_name` varchar(255) NOT NULL DEFAULT '',
+  `cat_value` varchar(255) NOT NULL DEFAULT '',
+  `cat_sort_value` int(11) NOT NULL DEFAULT '0',
+  `cat_display_name` mediumtext,
+  `cat_display_desc` mediumtext,
+  `cat_path` mediumtext,
+  `cat_ipath` varchar(255) NOT NULL DEFAULT '',
+  `cat_status` varchar(1) NOT NULL DEFAULT 'A',
+  `cat_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `cat_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `cat_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `cat_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `cat_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`cat_id`),
+  KEY `idx_categories_parent` (`cat_parent_id`),
+  KEY `idx_categories_is_leaf` (`cat_is_leaf`),
+  KEY `idx_categories_name` (`cat_name`),
+  KEY `idx_categories_ipath` (`cat_ipath`,`cat_is_leaf`,`cat_status`),
+  KEY `idx_categories_status` (`cat_status`),
+  KEY `idx_categories_ipath_status` (`cat_ipath`,`cat_status`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_categories_mapmeta` (
+  `cmm_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cmm_meta_id` int(11) NOT NULL DEFAULT '0',
+  `cmm_category_id` int(11) NOT NULL DEFAULT '0',
+  `cmm_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `cmm_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `cmm_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `cmm_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `cmm_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`cmm_id`),
+  KEY `idx_categories_mapmeta` (`cmm_meta_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_categories_mapobj` (
+  `cmo_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cmo_modname` varchar(60) NOT NULL DEFAULT '',
+  `cmo_table` varchar(60) NOT NULL,
+  `cmo_obj_id` int(11) NOT NULL DEFAULT '0',
+  `cmo_obj_idcolumn` varchar(60) NOT NULL DEFAULT 'id',
+  `cmo_reg_id` int(11) NOT NULL,
+  `cmo_category_id` int(11) NOT NULL,
+  `cmo_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `cmo_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `cmo_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `cmo_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `cmo_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`cmo_id`),
+  KEY `idx_categories_mapobj` (`cmo_modname`,`cmo_table`,`cmo_obj_id`,`cmo_obj_idcolumn`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_categories_registry` (
+  `crg_id` int(11) NOT NULL AUTO_INCREMENT,
+  `crg_modname` varchar(60) NOT NULL DEFAULT '',
+  `crg_table` varchar(60) NOT NULL DEFAULT '',
+  `crg_property` varchar(60) NOT NULL DEFAULT '',
+  `crg_category_id` int(11) NOT NULL DEFAULT '0',
+  `crg_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `crg_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `crg_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `crg_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `crg_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`crg_id`),
+  KEY `idx_categories_registry` (`crg_modname`,`crg_table`,`crg_property`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_comments` (
+  `pn_tid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_pid` int(11) DEFAULT '0',
+  `pn_sid` int(11) DEFAULT '0',
+  `pn_date` datetime DEFAULT NULL,
+  `pn_name` varchar(60) NOT NULL DEFAULT '',
+  `pn_email` varchar(60) DEFAULT NULL,
+  `pn_url` varchar(254) DEFAULT NULL,
+  `pn_host_name` varchar(60) DEFAULT NULL,
+  `pn_subject` varchar(85) NOT NULL DEFAULT '',
+  `pn_comment` mediumtext NOT NULL,
+  `pn_score` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_reason` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_tid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_content_content` (
+  `con_id` int(11) NOT NULL AUTO_INCREMENT,
+  `con_pageid` int(11) NOT NULL,
+  `con_areaindex` int(11) NOT NULL,
+  `con_position` int(11) NOT NULL,
+  `con_module` varchar(100) NOT NULL,
+  `con_type` varchar(100) NOT NULL,
+  `con_data` longtext NOT NULL,
+  `con_active` tinyint(4) NOT NULL DEFAULT '1',
+  `con_visiblefor` tinyint(4) NOT NULL DEFAULT '1',
+  `con_stylepos` varchar(20) NOT NULL DEFAULT 'none',
+  `con_stylewidth` varchar(20) NOT NULL DEFAULT '100',
+  `con_styleclass` varchar(100) NOT NULL DEFAULT '',
+  `con_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `con_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `con_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `con_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `con_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`con_id`),
+  KEY `pageActive` (`con_pageid`,`con_active`),
+  KEY `pagePosition` (`con_pageid`,`con_areaindex`,`con_position`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_content_history` (
+  `ch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ch_pageid` int(11) NOT NULL,
+  `ch_data` longtext NOT NULL,
+  `ch_revisionno` int(11) NOT NULL,
+  `ch_action` varchar(255) NOT NULL,
+  `ch_date` datetime NOT NULL,
+  `ch_ipno` varchar(30) NOT NULL,
+  `ch_userid` int(11) NOT NULL,
+  PRIMARY KEY (`ch_id`),
+  KEY `entry` (`ch_pageid`,`ch_revisionno`),
+  KEY `action` (`ch_action`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_content_page` (
+  `page_id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_ppid` int(11) NOT NULL DEFAULT '0',
+  `page_title` varchar(255) NOT NULL DEFAULT '',
+  `page_urlname` varchar(255) NOT NULL DEFAULT '',
+  `page_nohooks` tinyint(4) NOT NULL DEFAULT '0',
+  `page_layout` varchar(100) NOT NULL,
+  `page_categoryid` int(11) DEFAULT NULL,
+  `page_views` int(11) DEFAULT '0',
+  `page_active` tinyint(4) NOT NULL DEFAULT '1',
+  `page_activefrom` datetime DEFAULT NULL,
+  `page_activeto` datetime DEFAULT NULL,
+  `page_inmenu` tinyint(4) NOT NULL DEFAULT '1',
+  `page_pos` int(11) NOT NULL,
+  `page_level` int(11) NOT NULL,
+  `page_setleft` int(11) NOT NULL,
+  `page_setright` int(11) NOT NULL,
+  `page_language` varchar(10) DEFAULT NULL,
+  `page_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `page_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `page_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `page_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `page_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`page_id`),
+  KEY `parentPageId` (`page_ppid`,`page_pos`),
+  KEY `leftright` (`page_setleft`,`page_setright`),
+  KEY `categoryId` (`page_categoryid`),
+  KEY `urlname` (`page_urlname`,`page_ppid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_content_pagecategory` (
+  `con_pageid` int(11) NOT NULL,
+  `con_categoryid` int(11) NOT NULL,
+  KEY `pageId` (`con_pageid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_content_searchable` (
+  `search_cid` int(11) NOT NULL,
+  `search_text` text,
+  PRIMARY KEY (`search_cid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_content_translatedcontent` (
+  `transc_cid` int(11) NOT NULL,
+  `transc_lang` varchar(10) NOT NULL,
+  `transc_data` longtext,
+  `transc_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `transc_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `transc_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `transc_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `transc_lu_uid` int(11) NOT NULL DEFAULT '0',
+  KEY `entry` (`transc_cid`,`transc_lang`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_content_translatedpage` (
+  `transp_pid` int(11) NOT NULL,
+  `transp_lang` varchar(10) NOT NULL,
+  `transp_title` varchar(255) NOT NULL,
+  `transp_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `transp_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `transp_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `transp_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `transp_lu_uid` int(11) NOT NULL DEFAULT '0',
+  KEY `entry` (`transp_pid`,`transp_lang`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_categories` (
+  `cat_id` int(10) NOT NULL AUTO_INCREMENT,
+  `cat_title` varchar(100) DEFAULT NULL,
+  `cat_order` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`cat_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_forums` (
+  `forum_id` int(10) NOT NULL AUTO_INCREMENT,
+  `forum_name` varchar(150) DEFAULT NULL,
+  `forum_desc` text,
+  `forum_topics` int(10) unsigned NOT NULL DEFAULT '0',
+  `forum_posts` int(10) unsigned NOT NULL DEFAULT '0',
+  `forum_last_post_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `cat_id` int(10) DEFAULT NULL,
+  `forum_order` mediumint(8) unsigned DEFAULT NULL,
+  `forum_pop3_active` int(1) NOT NULL DEFAULT '0',
+  `forum_pop3_server` varchar(60) DEFAULT NULL,
+  `forum_pop3_port` int(5) NOT NULL DEFAULT '110',
+  `forum_pop3_login` varchar(60) DEFAULT NULL,
+  `forum_pop3_password` varchar(60) DEFAULT NULL,
+  `forum_pop3_interval` int(4) NOT NULL DEFAULT '0',
+  `forum_pop3_lastconnect` int(11) NOT NULL DEFAULT '0',
+  `forum_pop3_pnuser` varchar(60) DEFAULT NULL,
+  `forum_pop3_pnpassword` varchar(40) DEFAULT NULL,
+  `forum_pop3_matchstring` varchar(255) DEFAULT NULL,
+  `forum_moduleref` int(11) DEFAULT NULL,
+  `forum_pntopic` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`forum_id`),
+  KEY `forum_last_post_id` (`forum_last_post_id`),
+  KEY `forum_moduleref` (`forum_moduleref`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_forum_favorites` (
+  `forum_id` int(10) NOT NULL DEFAULT '0',
+  `user_id` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`forum_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_forum_mods` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `forum_id` int(10) NOT NULL DEFAULT '0',
+  `user_id` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `forum_id` (`forum_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_posts` (
+  `post_id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) NOT NULL DEFAULT '0',
+  `forum_id` int(11) NOT NULL DEFAULT '0',
+  `poster_id` int(11) NOT NULL DEFAULT '1',
+  `post_time` varchar(20) NOT NULL DEFAULT '',
+  `poster_ip` varchar(16) NOT NULL DEFAULT '',
+  `post_msgid` varchar(100) NOT NULL DEFAULT '',
+  `post_text` text,
+  `post_title` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`post_id`),
+  KEY `post_id` (`post_id`),
+  KEY `forum_id` (`forum_id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `poster_id` (`poster_id`),
+  KEY `post_msgid` (`post_msgid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_ranks` (
+  `rank_id` int(11) NOT NULL AUTO_INCREMENT,
+  `rank_title` varchar(50) NOT NULL DEFAULT '',
+  `rank_min` int(11) NOT NULL DEFAULT '0',
+  `rank_max` int(11) NOT NULL DEFAULT '0',
+  `rank_special` int(2) NOT NULL DEFAULT '0',
+  `rank_image` varchar(255) NOT NULL DEFAULT '',
+  `rank_desc` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`rank_id`),
+  KEY `rank_min` (`rank_min`),
+  KEY `rank_max` (`rank_max`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_subscription` (
+  `msg_id` int(10) NOT NULL AUTO_INCREMENT,
+  `forum_id` int(10) NOT NULL DEFAULT '0',
+  `user_id` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`msg_id`),
+  KEY `forum_id` (`forum_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_topics` (
+  `topic_id` int(10) NOT NULL AUTO_INCREMENT,
+  `topic_title` varchar(255) DEFAULT NULL,
+  `topic_poster` int(10) DEFAULT NULL,
+  `topic_time` varchar(20) DEFAULT NULL,
+  `topic_views` int(10) NOT NULL DEFAULT '0',
+  `topic_replies` int(10) unsigned NOT NULL DEFAULT '0',
+  `topic_last_post_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `forum_id` int(10) NOT NULL DEFAULT '0',
+  `topic_status` int(10) NOT NULL DEFAULT '0',
+  `sticky` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `topic_reference` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`topic_id`),
+  KEY `forum_id` (`forum_id`),
+  KEY `topic_last_post_id` (`topic_last_post_id`),
+  KEY `topic_reference` (`topic_reference`),
+  FULLTEXT KEY `topic_title` (`topic_title`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_topic_subscription` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(10) NOT NULL DEFAULT '0',
+  `user_id` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_dizkus_users` (
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_posts` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_rank` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_level` int(10) unsigned NOT NULL DEFAULT '1',
+  `user_lastvisit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_favorites` int(1) NOT NULL DEFAULT '0',
+  `user_post_order` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_downloads_categories` (
+  `pn_cid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_pid` int(11) NOT NULL DEFAULT '0',
+  `pn_title` varchar(50) NOT NULL DEFAULT '',
+  `pn_description` mediumtext NOT NULL,
+  PRIMARY KEY (`pn_cid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_downloads_downloads` (
+  `pn_lid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_cid` int(11) NOT NULL DEFAULT '0',
+  `pn_status` smallint(6) NOT NULL DEFAULT '1',
+  `pn_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_url` varchar(254) NOT NULL DEFAULT '',
+  `pn_filename` mediumtext NOT NULL,
+  `pn_description` mediumtext NOT NULL,
+  `pn_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_email` varchar(100) NOT NULL DEFAULT '',
+  `pn_hits` int(11) NOT NULL DEFAULT '0',
+  `pn_submitter` varchar(60) NOT NULL DEFAULT '',
+  `pn_filesize` double NOT NULL,
+  `pn_version` varchar(10) NOT NULL DEFAULT '',
+  `pn_homepage` varchar(200) NOT NULL DEFAULT '',
+  `pn_modid` int(11) NOT NULL DEFAULT '0',
+  `pn_objectid` varchar(5) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_lid`),
+  FULLTEXT KEY `pn_title` (`pn_title`,`pn_description`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_downloads_modrequest` (
+  `pn_requestid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_lid` int(11) NOT NULL DEFAULT '0',
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_description` mediumtext NOT NULL,
+  `pn_modifysubmitter` varchar(60) NOT NULL DEFAULT '',
+  `pn_email` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_requestid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_ezcomments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `modname` varchar(64) NOT NULL DEFAULT '',
+  `objectid` varchar(255) NOT NULL DEFAULT '',
+  `url` text,
+  `date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `owneruid` int(11) NOT NULL DEFAULT '0',
+  `comment` text,
+  `subject` text,
+  `replyto` int(11) NOT NULL DEFAULT '0',
+  `anonname` varchar(255) NOT NULL DEFAULT '',
+  `anonmail` varchar(255) NOT NULL DEFAULT '',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `ipaddr` varchar(85) NOT NULL DEFAULT '',
+  `type` varchar(64) NOT NULL DEFAULT '',
+  `anonwebsite` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `modobj` (`modname`,`objectid`),
+  KEY `modname` (`modname`),
+  KEY `objectid` (`objectid`),
+  KEY `uid` (`uid`),
+  KEY `ownerid` (`owneruid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_faqanswer` (
+  `pn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_question` mediumtext,
+  `pn_answer` mediumtext,
+  `pn_submittedbyid` int(11) NOT NULL,
+  `pn_urltitle` mediumtext,
+  `pn_answeredbyid` int(11) NOT NULL,
+  `pn_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `pn_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_feeds` (
+  `pn_fid` int(10) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(255) NOT NULL DEFAULT '',
+  `pn_url` varchar(255) NOT NULL DEFAULT '',
+  `pn_urltitle` varchar(255) NOT NULL DEFAULT '',
+  `pn_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `pn_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_fid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_formcontacts` (
+  `pn_cid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(40) NOT NULL DEFAULT '',
+  `pn_email` varchar(80) NOT NULL DEFAULT '',
+  `pn_public` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_sname` varchar(40) NOT NULL DEFAULT '',
+  `pn_semail` varchar(80) NOT NULL DEFAULT '',
+  `pn_ssubject` varchar(80) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_cid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_groups` (
+  `pn_gid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(255) NOT NULL DEFAULT '',
+  `pn_gtype` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_description` varchar(200) NOT NULL DEFAULT '',
+  `pn_prefix` varchar(25) NOT NULL DEFAULT '',
+  `pn_state` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_nbuser` int(11) NOT NULL DEFAULT '0',
+  `pn_nbumax` int(11) NOT NULL DEFAULT '0',
+  `pn_link` int(11) NOT NULL DEFAULT '0',
+  `pn_uidmaster` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_gid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_group_applications` (
+  `pn_app_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_gid` int(11) NOT NULL DEFAULT '0',
+  `pn_application` longblob,
+  `pn_status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_app_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_group_membership` (
+  `pn_gid` int(11) NOT NULL DEFAULT '0',
+  `pn_uid` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_group_perms` (
+  `pn_pid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_gid` int(11) NOT NULL DEFAULT '0',
+  `pn_sequence` int(11) NOT NULL DEFAULT '0',
+  `pn_realm` smallint(4) NOT NULL DEFAULT '0',
+  `pn_component` varchar(255) NOT NULL DEFAULT '',
+  `pn_instance` varchar(255) NOT NULL DEFAULT '',
+  `pn_level` smallint(4) NOT NULL DEFAULT '0',
+  `pn_bond` int(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_pid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_hooks` (
+  `pn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_object` varchar(64) NOT NULL DEFAULT '',
+  `pn_action` varchar(64) NOT NULL DEFAULT '',
+  `pn_smodule` varchar(64) NOT NULL DEFAULT '',
+  `pn_stype` varchar(64) NOT NULL DEFAULT '',
+  `pn_tarea` varchar(64) NOT NULL DEFAULT '',
+  `pn_tmodule` varchar(64) NOT NULL DEFAULT '',
+  `pn_ttype` varchar(64) NOT NULL DEFAULT '',
+  `pn_tfunc` varchar(64) NOT NULL DEFAULT '',
+  `pn_sequence` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_id`),
+  KEY `smodule` (`pn_smodule`),
+  KEY `smodule_tmodule` (`pn_smodule`,`pn_tmodule`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_intercom` (
+  `pn_msg_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_from_userid` int(11) NOT NULL DEFAULT '0',
+  `pn_to_userid` int(11) NOT NULL DEFAULT '0',
+  `pn_msg_subject` varchar(100) NOT NULL DEFAULT '',
+  `pn_msg_time` varchar(20) NOT NULL DEFAULT '',
+  `pn_msg_text` longtext,
+  `pn_msg_read` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_msg_replied` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_msg_popup` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_msg_inbox` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_msg_outbox` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_msg_stored` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_msg_id`),
+  KEY `FromUserID` (`pn_from_userid`),
+  KEY `ToUserID` (`pn_to_userid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_intercom_userprefs` (
+  `pn_user_id` int(11) NOT NULL DEFAULT '0',
+  `pn_email_notification` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_autoreply` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_autoreply_text` longtext,
+  PRIMARY KEY (`pn_user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_links_categories` (
+  `pn_cat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_parent_id` int(11) DEFAULT NULL,
+  `pn_title` varchar(50) NOT NULL DEFAULT '',
+  `pn_description` mediumtext NOT NULL,
+  PRIMARY KEY (`pn_cat_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_links_links` (
+  `pn_lid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_cat_id` int(11) NOT NULL DEFAULT '0',
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_url` varchar(254) NOT NULL DEFAULT '',
+  `pn_description` mediumtext NOT NULL,
+  `pn_date` datetime DEFAULT NULL,
+  `pn_name` varchar(100) NOT NULL DEFAULT '',
+  `pn_email` varchar(100) NOT NULL DEFAULT '',
+  `pn_hits` int(11) NOT NULL DEFAULT '0',
+  `pn_submitter` varchar(60) NOT NULL DEFAULT '',
+  `pn_ratingsummary` double(6,4) NOT NULL DEFAULT '0.0000',
+  `pn_totalvotes` int(11) NOT NULL DEFAULT '0',
+  `pn_totalcomments` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_lid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_links_modrequest` (
+  `pn_requestid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_lid` int(11) NOT NULL DEFAULT '0',
+  `pn_cat_id` int(11) NOT NULL DEFAULT '0',
+  `pn_sid` int(11) NOT NULL DEFAULT '0',
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_url` varchar(254) NOT NULL DEFAULT '',
+  `pn_description` mediumtext NOT NULL,
+  `pn_modifysubmitter` varchar(60) NOT NULL DEFAULT '',
+  `pn_brokenlink` tinyint(3) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_requestid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_links_newlink` (
+  `pn_lid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_cat_id` int(11) NOT NULL DEFAULT '0',
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_url` varchar(254) NOT NULL DEFAULT '',
+  `pn_description` mediumtext NOT NULL,
+  `pn_name` varchar(100) NOT NULL DEFAULT '',
+  `pn_email` varchar(100) NOT NULL DEFAULT '',
+  `pn_submitter` varchar(60) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_lid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_links_votedata` (
+  `pn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_lid` int(11) NOT NULL DEFAULT '0',
+  `pn_user` varchar(60) NOT NULL DEFAULT '',
+  `pn_rating` int(11) NOT NULL DEFAULT '0',
+  `pn_hostname` varchar(60) NOT NULL DEFAULT '',
+  `pn_comments` mediumtext NOT NULL,
+  `pn_timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`pn_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_message` (
+  `pn_mid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_content` longtext NOT NULL,
+  `pn_date` int(11) NOT NULL DEFAULT '0',
+  `pn_expire` int(11) NOT NULL DEFAULT '0',
+  `pn_active` int(11) NOT NULL DEFAULT '1',
+  `pn_view` int(11) NOT NULL DEFAULT '1',
+  `pn_language` varchar(30) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_mid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_modules` (
+  `pn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(64) NOT NULL DEFAULT '',
+  `pn_type` tinyint(4) NOT NULL,
+  `pn_displayname` varchar(64) NOT NULL DEFAULT '',
+  `pn_description` varchar(255) NOT NULL DEFAULT '',
+  `pn_regid` int(11) NOT NULL DEFAULT '0',
+  `pn_directory` varchar(64) NOT NULL DEFAULT '',
+  `pn_version` varchar(10) NOT NULL DEFAULT '0',
+  `pn_admin_capable` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_user_capable` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_state` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_official` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_author` varchar(255) NOT NULL DEFAULT '',
+  `pn_contact` varchar(255) NOT NULL DEFAULT '',
+  `pn_profile_capable` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_message_capable` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_credits` varchar(255) NOT NULL DEFAULT '',
+  `pn_help` varchar(255) NOT NULL DEFAULT '',
+  `pn_changelog` varchar(255) NOT NULL DEFAULT '',
+  `pn_license` varchar(255) NOT NULL DEFAULT '',
+  `pn_securityschema` text,
+  `pn_url` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_id`),
+  KEY `state` (`pn_state`),
+  KEY `mod_state` (`pn_name`,`pn_state`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_module_deps` (
+  `pn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_modid` int(11) NOT NULL DEFAULT '0',
+  `pn_modname` varchar(64) NOT NULL DEFAULT '',
+  `pn_minversion` varchar(10) NOT NULL DEFAULT '',
+  `pn_maxversion` varchar(10) NOT NULL DEFAULT '',
+  `pn_status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_module_vars` (
+  `pn_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `pn_modname` varchar(64) NOT NULL DEFAULT '',
+  `pn_name` varchar(64) NOT NULL DEFAULT '',
+  `pn_value` longtext,
+  PRIMARY KEY (`pn_id`),
+  KEY `pn_modname` (`pn_modname`),
+  KEY `pn_name` (`pn_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_multihook` (
+  `pn_aid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_short` varchar(100) NOT NULL DEFAULT '',
+  `pn_long` varchar(200) NOT NULL DEFAULT '',
+  `pn_title` varchar(100) NOT NULL DEFAULT '',
+  `pn_type` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_language` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_aid`),
+  KEY `short` (`pn_short`),
+  KEY `type` (`pn_type`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_news` (
+  `pn_sid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_title` varchar(255) DEFAULT NULL,
+  `pn_hometext` text,
+  `pn_bodytext` text,
+  `pn_counter` int(11) DEFAULT '0',
+  `pn_contributor` varchar(25) NOT NULL DEFAULT '',
+  `pn_notes` text,
+  `pn_hideonindex` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_language` varchar(30) NOT NULL DEFAULT '',
+  `pn_disallowcomments` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_format_type` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_urltitle` varchar(255) DEFAULT NULL,
+  `pn_published_status` tinyint(4) DEFAULT '0',
+  `pn_from` datetime DEFAULT NULL,
+  `pn_to` datetime DEFAULT NULL,
+  `pn_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `pn_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_lu_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_approver` int(11) DEFAULT '0',
+  `pn_weight` tinyint(4) DEFAULT '0',
+  `pn_pictures` int(11) DEFAULT '0',
+  PRIMARY KEY (`pn_sid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_objectdata_attributes` (
+  `oba_id` int(11) NOT NULL AUTO_INCREMENT,
+  `oba_attribute_name` varchar(80) NOT NULL DEFAULT '',
+  `oba_object_id` int(11) NOT NULL DEFAULT '0',
+  `oba_object_type` varchar(80) NOT NULL DEFAULT '',
+  `oba_value` text,
+  `oba_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `oba_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `oba_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `oba_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `oba_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`oba_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_objectdata_log` (
+  `obl_id` int(11) NOT NULL AUTO_INCREMENT,
+  `obl_object_type` varchar(80) NOT NULL DEFAULT '',
+  `obl_object_id` int(11) NOT NULL DEFAULT '0',
+  `obl_op` varchar(16) NOT NULL DEFAULT '',
+  `obl_diff` mediumtext,
+  `obl_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `obl_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `obl_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `obl_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `obl_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`obl_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_objectdata_meta` (
+  `obm_id` int(11) NOT NULL AUTO_INCREMENT,
+  `obm_module` varchar(40) NOT NULL DEFAULT '',
+  `obm_table` varchar(40) NOT NULL DEFAULT '',
+  `obm_idcolumn` varchar(40) NOT NULL DEFAULT '',
+  `obm_obj_id` int(11) NOT NULL DEFAULT '0',
+  `obm_permissions` varchar(255) DEFAULT '',
+  `obm_dc_title` varchar(80) DEFAULT '',
+  `obm_dc_author` varchar(80) DEFAULT '',
+  `obm_dc_subject` varchar(255) DEFAULT '',
+  `obm_dc_keywords` varchar(128) DEFAULT '',
+  `obm_dc_description` varchar(255) DEFAULT '',
+  `obm_dc_publisher` varchar(128) DEFAULT '',
+  `obm_dc_contributor` varchar(128) DEFAULT '',
+  `obm_dc_startdate` datetime DEFAULT '1970-01-01 00:00:00',
+  `obm_dc_enddate` datetime DEFAULT '1970-01-01 00:00:00',
+  `obm_dc_type` varchar(128) DEFAULT '',
+  `obm_dc_format` varchar(128) DEFAULT '',
+  `obm_dc_uri` varchar(255) DEFAULT '',
+  `obm_dc_source` varchar(128) DEFAULT '',
+  `obm_dc_language` varchar(32) DEFAULT '',
+  `obm_dc_relation` varchar(255) DEFAULT '',
+  `obm_dc_coverage` varchar(64) DEFAULT '',
+  `obm_dc_entity` varchar(64) DEFAULT '',
+  `obm_dc_comment` varchar(255) DEFAULT '',
+  `obm_dc_extra` varchar(255) DEFAULT '',
+  `obm_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `obm_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `obm_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `obm_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `obm_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`obm_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_pagelock` (
+  `plock_id` int(11) NOT NULL AUTO_INCREMENT,
+  `plock_name` varchar(100) NOT NULL DEFAULT '',
+  `plock_cdate` datetime NOT NULL,
+  `plock_edate` datetime NOT NULL,
+  `plock_session` varchar(50) NOT NULL,
+  `plock_title` varchar(100) NOT NULL,
+  `plock_ipno` varchar(30) NOT NULL,
+  PRIMARY KEY (`plock_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_pages` (
+  `pn_pageid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_title` text,
+  `pn_content` text,
+  `pn_counter` int(11) NOT NULL DEFAULT '0',
+  `pn_language` varchar(30) NOT NULL DEFAULT '',
+  `pn_urltitle` text,
+  `pn_displaywrapper` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_displaytitle` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_displaycreated` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_displayupdated` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_displaytextinfo` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_displayprint` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `pn_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_pageid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_pendingcontent` (
+  `pn_pid` int(10) NOT NULL AUTO_INCREMENT,
+  `pn_url` varchar(255) NOT NULL DEFAULT '',
+  `pn_name` varchar(255) NOT NULL DEFAULT '',
+  `pn_sql` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_pid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_postcalendar_events` (
+  `pc_eid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `pc_aid` varchar(30) NOT NULL DEFAULT '',
+  `pc_title` varchar(150) DEFAULT '',
+  `pc_time` datetime DEFAULT NULL,
+  `pc_hometext` text,
+  `pc_informant` varchar(20) NOT NULL DEFAULT '',
+  `pc_eventDate` date NOT NULL DEFAULT '0000-00-00',
+  `pc_endDate` date NOT NULL DEFAULT '0000-00-00',
+  `pc_recurrtype` int(1) NOT NULL DEFAULT '0',
+  `pc_recurrspec` text,
+  `pc_startTime` varchar(8) DEFAULT '00:00:00',
+  `pc_alldayevent` int(1) NOT NULL DEFAULT '0',
+  `pc_location` text,
+  `pc_conttel` varchar(50) DEFAULT '',
+  `pc_contname` varchar(50) DEFAULT '',
+  `pc_contemail` varchar(255) DEFAULT '',
+  `pc_website` varchar(255) DEFAULT '',
+  `pc_fee` varchar(50) DEFAULT '',
+  `pc_eventstatus` int(11) NOT NULL DEFAULT '0',
+  `pc_duration` bigint(20) NOT NULL DEFAULT '0',
+  `pc_sharing` int(11) NOT NULL DEFAULT '0',
+  `pc_hooked_modulename` varchar(50) DEFAULT '',
+  `pc_hooked_objectid` int(11) DEFAULT '0',
+  `pc_obj_status` varchar(1) NOT NULL DEFAULT 'A',
+  `pc_cr_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pc_cr_uid` int(11) NOT NULL DEFAULT '0',
+  `pc_lu_date` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pc_lu_uid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pc_eid`),
+  KEY `basic_event` (`pc_aid`,`pc_eventDate`,`pc_endDate`,`pc_eventstatus`,`pc_sharing`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_priv_msgs` (
+  `pn_msg_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_msg_image` varchar(100) DEFAULT NULL,
+  `pn_subject` varchar(100) DEFAULT NULL,
+  `pn_from_userid` int(11) NOT NULL DEFAULT '0',
+  `pn_to_userid` int(11) NOT NULL DEFAULT '0',
+  `pn_msg_time` varchar(20) DEFAULT NULL,
+  `pn_msg_text` mediumtext,
+  `pn_read_msg` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_msg_id`),
+  KEY `pn_to_userid` (`pn_to_userid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_ratings` (
+  `pn_rid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_module` varchar(32) NOT NULL DEFAULT '',
+  `pn_itemid` varchar(64) NOT NULL DEFAULT '',
+  `pn_ratingtype` varchar(64) NOT NULL DEFAULT '',
+  `pn_rating` double NOT NULL DEFAULT '0',
+  `pn_numratings` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`pn_rid`),
+  KEY `module` (`pn_module`),
+  KEY `itemid` (`pn_itemid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_ratingslog` (
+  `pn_id` varchar(32) NOT NULL DEFAULT '',
+  `pn_ratingid` varchar(64) NOT NULL DEFAULT '',
+  `pn_rating` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_related` (
+  `pn_rid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_tid` int(11) NOT NULL DEFAULT '0',
+  `pn_name` varchar(30) NOT NULL DEFAULT '',
+  `pn_url` varchar(254) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_rid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_scribite` (
+  `pn_mid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_modname` varchar(64) NOT NULL DEFAULT '',
+  `pn_modfunc` longtext NOT NULL,
+  `pn_modareas` longtext NOT NULL,
+  `pn_modeditor` varchar(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_mid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_sc_anticracker` (
+  `pn_hid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_hacktime` varchar(20) DEFAULT NULL,
+  `pn_hackfile` varchar(255) DEFAULT '',
+  `pn_hackline` int(11) DEFAULT NULL,
+  `pn_hacktype` varchar(255) DEFAULT '',
+  `pn_hackinfo` longtext,
+  `pn_userid` int(11) DEFAULT NULL,
+  `pn_browserinfo` longtext,
+  `pn_requestarray` longtext,
+  `pn_gettarray` longtext,
+  `pn_postarray` longtext,
+  `pn_serverarray` longtext,
+  `pn_envarray` longtext,
+  `pn_cookiearray` longtext,
+  `pn_filesarray` longtext,
+  `pn_sessionarray` longtext,
+  PRIMARY KEY (`pn_hid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_sc_log_event` (
+  `lge_id` int(11) NOT NULL AUTO_INCREMENT,
+  `lge_date` datetime DEFAULT NULL,
+  `lge_uid` int(11) DEFAULT NULL,
+  `lge_component` varchar(64) DEFAULT NULL,
+  `lge_module` varchar(64) DEFAULT NULL,
+  `lge_type` varchar(64) DEFAULT NULL,
+  `lge_function` varchar(64) DEFAULT NULL,
+  `lge_sec_component` varchar(64) DEFAULT NULL,
+  `lge_sec_instance` varchar(64) DEFAULT NULL,
+  `lge_sec_permission` varchar(64) DEFAULT NULL,
+  `lge_message` varchar(255) DEFAULT '',
+  PRIMARY KEY (`lge_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_search_result` (
+  `sres_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sres_title` varchar(255) NOT NULL DEFAULT '',
+  `sres_text` longtext,
+  `sres_module` varchar(100) DEFAULT NULL,
+  `sres_extra` varchar(100) DEFAULT NULL,
+  `sres_created` datetime DEFAULT NULL,
+  `sres_found` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `sres_sesid` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`sres_id`),
+  KEY `title` (`sres_title`),
+  KEY `module` (`sres_module`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_search_stat` (
+  `pn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_search` varchar(50) NOT NULL DEFAULT '',
+  `pn_count` int(11) NOT NULL DEFAULT '0',
+  `pn_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pn_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_session_info` (
+  `pn_sessid` varchar(40) NOT NULL DEFAULT '',
+  `pn_ipaddr` varchar(32) NOT NULL DEFAULT '',
+  `pn_lastused` datetime DEFAULT '1970-01-01 00:00:00',
+  `pn_uid` int(11) DEFAULT '0',
+  `pn_remember` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_vars` longtext NOT NULL,
+  PRIMARY KEY (`pn_sessid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_subscription_data` (
+  `pn_data_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_invoice` int(15) NOT NULL DEFAULT '0',
+  `pn_user_id` int(11) NOT NULL,
+  `pn_user_name` varchar(60) NOT NULL,
+  `pn_payer_id` varchar(13) NOT NULL,
+  `pn_subscription_id` varchar(20) NOT NULL DEFAULT '',
+  `pn_transaction_id` varchar(100) NOT NULL DEFAULT '',
+  `pn_transaction_type` varchar(20) NOT NULL DEFAULT '',
+  `pn_payment_gross` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `pn_payment_fee` decimal(3,2) NOT NULL DEFAULT '0.00',
+  `pn_payment_status` varchar(10) NOT NULL DEFAULT '',
+  `pn_transaction_date` int(15) NOT NULL DEFAULT '0',
+  `pn_verify_sign` varchar(100) NOT NULL DEFAULT '',
+  `pn_note` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_data_id`),
+  KEY `subscription_data` (`pn_invoice`,`pn_user_id`,`pn_payer_id`,`pn_subscription_id`,`pn_transaction_id`(20),`pn_payment_status`,`pn_transaction_date`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_subscription_plans` (
+  `pn_plan_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_group_id` int(11) NOT NULL,
+  `pn_term` varchar(10) NOT NULL,
+  `pn_cost` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `pn_description` text NOT NULL,
+  PRIMARY KEY (`pn_plan_id`),
+  KEY `subscription_plans` (`pn_group_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_subscription_users` (
+  `pn_user_id` int(11) NOT NULL,
+  `pn_user_name` varchar(60) NOT NULL,
+  `pn_plan_id` int(11) NOT NULL,
+  `pn_payer_id` varchar(13) NOT NULL,
+  `pn_subscription_id` varchar(20) NOT NULL DEFAULT '',
+  `pn_payer_first_name` varchar(60) NOT NULL DEFAULT '',
+  `pn_payer_last_name` varchar(60) NOT NULL DEFAULT '',
+  `pn_payer_email` varchar(100) NOT NULL DEFAULT '',
+  `pn_subscribe_date` int(15) NOT NULL,
+  `pn_expire_date` int(15) NOT NULL DEFAULT '0',
+  `pn_active` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_user_id`),
+  KEY `subscription_users` (`pn_payer_id`,`pn_user_id`,`pn_expire_date`,`pn_active`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_themes` (
+  `pn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(64) NOT NULL DEFAULT '',
+  `pn_type` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_displayname` varchar(64) NOT NULL DEFAULT '',
+  `pn_description` varchar(255) NOT NULL DEFAULT '',
+  `pn_regid` int(11) NOT NULL DEFAULT '0',
+  `pn_directory` varchar(64) NOT NULL DEFAULT '',
+  `pn_version` varchar(10) NOT NULL DEFAULT '0',
+  `pn_official` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_author` varchar(255) NOT NULL DEFAULT '',
+  `pn_contact` varchar(255) NOT NULL DEFAULT '',
+  `pn_admin` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_user` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_system` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_state` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_credits` varchar(255) NOT NULL DEFAULT '',
+  `pn_changelog` varchar(255) NOT NULL DEFAULT '',
+  `pn_help` varchar(255) NOT NULL DEFAULT '',
+  `pn_license` varchar(255) NOT NULL DEFAULT '',
+  `pn_xhtml` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`pn_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_topics` (
+  `pn_topicid` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `pn_topicname` varchar(255) DEFAULT NULL,
+  `pn_topicimage` varchar(255) DEFAULT NULL,
+  `pn_topictext` varchar(255) DEFAULT NULL,
+  `pn_counter` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_topicid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_userblocks` (
+  `pn_uid` int(11) NOT NULL DEFAULT '0',
+  `pn_bid` int(11) NOT NULL DEFAULT '0',
+  `pn_active` tinyint(4) NOT NULL DEFAULT '1',
+  `pn_last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY `bid_uid_idx` (`pn_uid`,`pn_bid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_users` (
+  `pn_uid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_name` varchar(60) NOT NULL DEFAULT '',
+  `pn_uname` varchar(25) NOT NULL DEFAULT '',
+  `pn_email` varchar(60) NOT NULL DEFAULT '',
+  `pn_femail` varchar(60) NOT NULL DEFAULT '',
+  `pn_url` varchar(254) NOT NULL DEFAULT '',
+  `pn_user_avatar` varchar(30) DEFAULT NULL,
+  `pn_user_regdate` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_user_icq` varchar(50) DEFAULT NULL,
+  `pn_user_occ` varchar(100) DEFAULT NULL,
+  `pn_user_from` varchar(100) DEFAULT NULL,
+  `pn_user_intrest` varchar(150) DEFAULT NULL,
+  `pn_user_sig` varchar(255) DEFAULT NULL,
+  `pn_user_viewemail` smallint(6) DEFAULT '0',
+  `pn_user_theme` varchar(64) DEFAULT '',
+  `pn_user_aim` varchar(18) DEFAULT NULL,
+  `pn_user_yim` varchar(25) DEFAULT NULL,
+  `pn_user_msnm` varchar(25) DEFAULT NULL,
+  `pn_pass` varchar(128) NOT NULL DEFAULT '',
+  `pn_storynum` int(4) NOT NULL DEFAULT '10',
+  `pn_bio` text NOT NULL,
+  `pn_ublockon` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_ublock` mediumtext,
+  `pn_theme` varchar(255) NOT NULL DEFAULT '',
+  `pn_counter` int(11) NOT NULL DEFAULT '0',
+  `pn_timezone_offset` float(3,1) NOT NULL DEFAULT '0.0',
+  `pn_activated` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_lastlogin` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `pn_validfrom` int(11) NOT NULL DEFAULT '0',
+  `pn_validuntil` int(11) NOT NULL DEFAULT '0',
+  `pn_hash_method` tinyint(4) NOT NULL DEFAULT '8',
+  PRIMARY KEY (`pn_uid`),
+  KEY `uname` (`pn_uname`),
+  KEY `email` (`pn_email`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_users_temp` (
+  `pn_tid` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_uname` varchar(25) NOT NULL DEFAULT '',
+  `pn_email` varchar(60) NOT NULL DEFAULT '',
+  `pn_femail` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_pass` varchar(128) NOT NULL DEFAULT '',
+  `pn_dynamics` longtext NOT NULL,
+  `pn_comment` varchar(254) NOT NULL DEFAULT '',
+  `pn_type` tinyint(4) NOT NULL DEFAULT '0',
+  `pn_tag` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`pn_tid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_user_property` (
+  `pn_prop_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pn_prop_label` varchar(255) NOT NULL DEFAULT '',
+  `pn_prop_dtype` int(11) NOT NULL DEFAULT '0',
+  `pn_prop_weight` int(11) NOT NULL DEFAULT '0',
+  `pn_prop_validation` text,
+  `pn_prop_modname` varchar(64) NOT NULL DEFAULT '',
+  `pn_prop_attribute_name` varchar(80) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pn_prop_id`),
+  UNIQUE KEY `pn_prop_label` (`pn_prop_label`),
+  KEY `prop_label` (`pn_prop_label`),
+  KEY `prop_attr` (`pn_prop_attribute_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `nuke_workflows` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `metaid` int(11) NOT NULL DEFAULT '0',
+  `module` varchar(255) NOT NULL DEFAULT '',
+  `schemaname` varchar(255) NOT NULL DEFAULT '',
+  `state` varchar(255) NOT NULL DEFAULT '',
+  `type` smallint(6) NOT NULL DEFAULT '1',
+  `obj_table` varchar(40) NOT NULL DEFAULT '',
+  `obj_idcolumn` varchar(40) NOT NULL DEFAULT '',
+  `obj_id` int(11) NOT NULL DEFAULT '0',
+  `busy` int(11) NOT NULL DEFAULT '0',
+  `debug` longblob,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
