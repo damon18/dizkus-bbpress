@@ -8,18 +8,18 @@
  */
 
 /**
- * Implementation of phpBB v3 Converter.
+ * Implementation of dizkus Converter.
  *
  * @since 2.6.0 bbPress (rXXXX)
  *
- * @link Codex Docs https://codex.bbpress.org/import-forums/phpbb
+ * @link Codex Docs https://codex.bbpress.org/import-forums/dizkus
  */
 class dizkusZK extends BBP_Converter_Base {
 
 	/**
 	 * Main Constructor
 	 *
-	 * @uses phpBB::setup_globals()
+	 * @uses dizkusZK::setup_globals()
 	 */
 	function __construct() {
 		parent::__construct();
@@ -216,21 +216,15 @@ class dizkusZK extends BBP_Converter_Base {
 			'callback_method' => 'callback_userid'
 		);
 
-		// Topic author name (Stored in postmeta as _bbp_anonymous_name)
+		// Topic Author ip (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
-			'from_fieldname'  => 'topic_poster',
+			'from_tablename'  => 'zk_dizkus_posts',
+			'from_fieldname'  => 'poster_ip',
+			'join_tablename'  => 'zk_dizkus_topics',
+			'join_type'       => 'INNER',
+			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.topic_id = zk_dizkus_topics.topic_id GROUP BY topic_id',
 			'to_type'         => 'topic',
-			'to_fieldname'    => '_bbp_old_topic_author_name_id'
-		);
-
-		// Is the topic anonymous (Stored in postmeta)
-		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
-			'from_fieldname'  => 'topic_poster',
-			'to_type'         => 'topic',
-			'to_fieldname'    => '_bbp_old_is_topic_anonymous_id',
-			'callback_method' => 'callback_check_anonymous'
+			'to_fieldname'    => '_bbp_author_ip'
 		);
 
 		// Topic content.
@@ -240,7 +234,7 @@ class dizkusZK extends BBP_Converter_Base {
 			'from_fieldname'  => 'post_text',
 			'join_tablename'  => 'zk_dizkus_topics',
 			'join_type'       => 'INNER',
-			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.post_id = zk_dizkus_topics.post_id',
+			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.topic_id = zk_dizkus_topics.topic_idGROUP BY topic_id',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_content',
 			'callback_method' => 'callback_html'
@@ -330,7 +324,7 @@ class dizkusZK extends BBP_Converter_Base {
 		/** Tags Section ******************************************************/
 
 		/**
-		 * phpBB Forums do not support topic tags
+		 * dizkus Forums do not support topic tags
 		 */
 
 		/** Topic Subscriptions Section ***************************************/
@@ -354,22 +348,9 @@ class dizkusZK extends BBP_Converter_Base {
 
 		/** Favorites Section *************************************************/
 
-		// Favorited topic ID (Stored in usermeta)
-		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topic_subscription',
-			'from_fieldname'  => 'topic_id',
-			'to_type'         => 'favorites',
-			'to_fieldname'    => '_bbp_favorites'
-		);
-
-		// Favorited user ID (Stored in usermeta)
-		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topic_subscription',
-			'from_fieldname'  => 'user_id',
-			'to_type'         => 'favorites',
-			'to_fieldname'    => 'user_id',
-			'callback_method' => 'callback_userid'
-		);
+		/**
+		 * dizkus Forums do not support favorite topics
+		 */
 
 		/** Reply Section *****************************************************/
 
@@ -386,8 +367,8 @@ class dizkusZK extends BBP_Converter_Base {
 			'from_tablename'  => 'zk_dizkus_topics',
 			'from_fieldname'  => 'topic_id',
 			'join_tablename'  => 'zk_dizkus_posts',
-			'join_type'       => 'LEFT',
-			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.post_id != zk_dizkus_topics.topic_last_post_id',
+			'join_type'       => 'INNER',
+			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.topic_id = zk_dizkus_topics.topic_id',
 			'to_type'         => 'reply'
 		);
 
@@ -424,26 +405,6 @@ class dizkusZK extends BBP_Converter_Base {
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_author',
 			'callback_method' => 'callback_userid'
-		);
-
-		// Reply author name (Stored in postmeta as _bbp_anonymous_name)
-		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
-			'from_fieldname'  => 'pn_uname',
-			'join_tablename'  => 'zk_dizkus_posts',
-			'join_type'       => 'INNER',
-			'join_expression' => 'USING (post_id) WHERE zk_users.pn_uid = zk_dizkus_posts.poster_id',
-			'to_type'         => 'reply',
-			'to_fieldname'    => '_bbp_old_reply_author_name_id'
-		);
-
-		// Is the reply anonymous (Stored in postmeta)
-		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
-			'from_fieldname'  => 'poster_id',
-			'to_type'         => 'reply',
-			'to_fieldname'    => '_bbp_old_is_reply_anonymous_id',
-			'callback_method' => 'callback_check_anonymous'
 		);
 
 		// Reply content.
@@ -497,24 +458,21 @@ class dizkusZK extends BBP_Converter_Base {
 		/** User Section ******************************************************/
 
 		// Store old user id (Stored in usermeta)
-		// Don't import users with id 2, these are phpBB bot/crawler accounts
+		// Don't import users with id 2, these are dizkus bot/crawler accounts
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_users',
-			'from_fieldname'  => 'user_id',
+			'from_tablename'  => 'zk_users',
+			'from_fieldname'  => 'pn_uid',
 			'to_type'         => 'user',
 			'to_fieldname'    => '_bbp_old_user_id'
 		);
 
 		// Store old user password (Stored in usermeta serialized with salt)
 		$this->field_map[] = array(
-//			'from_tablename'  => 'zk_users',
-//			'from_fieldname'  => 'pn_pass',
-//			'join_tablename'  => 'zk_dizkus_users',
-//			'join_type'       => 'INNER',
-//			'join_expression' => 'USING (user_id) WHERE zk_users.pn_uid = zk_dizkus_users.user_id',
-			'to_type'      => 'user',
-			'to_fieldname' => '_bbp_password',
-			'default'      => 'open',
+			'from_tablename'  => 'zk_users',
+			'from_fieldname'  => 'pn_pass',
+			'to_type'         => 'user',
+			'to_fieldname'    => '_bbp_password',
+			'callback_method' => 'callback_savepass'
 		);
 
 		// User password verify class (Stored in usermeta for verifying password)
@@ -540,14 +498,6 @@ class dizkusZK extends BBP_Converter_Base {
 			'to_fieldname'   => 'user_email'
 		);
 
-		// User homepage.
-		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
-			'from_fieldname'  => 'pn_url',
-			'to_type'         => 'user',
-			'to_fieldname'    => 'user_url'
-		);
-
 		// User registered.
 		$this->field_map[] = array(
 			'from_tablename'  => 'zk_users',
@@ -556,16 +506,6 @@ class dizkusZK extends BBP_Converter_Base {
 			'to_fieldname'    => 'user_registered',
 			'callback_method' => 'callback_datetime'
 		);
-
-		// Store Avatar Filename (Stored in usermeta)
-		$this->field_map[] = array(
-			'from_tablename' => 'zk_users',
-			'from_fieldname' => 'pn_user_avatar',
-			'to_type'        => 'user',
-			'to_fieldname'   => '_bbp_dizkus_user_avatar'
-		);
-
-		// Store old role (Stored in usermeta)
 	}
 
 	/**
@@ -700,9 +640,9 @@ class dizkusZK extends BBP_Converter_Base {
 	}
 
 	/**
-	 * Translate the topic status from phpBB v3.x numeric's to WordPress's strings.
+	 * Translate the topic status from dizkus numeric's to WordPress's strings.
 	 *
-	 * @param int $status phpBB v3.x numeric topic status
+	 * @param int $status dizkus numeric topic status
 	 * @return string WordPress safe
 	 */
 	public function callback_topic_status( $status = 0 ) {
@@ -720,28 +660,28 @@ class dizkusZK extends BBP_Converter_Base {
 	}
 
 	/**
-	 * Translate the topic sticky status type from phpBB 3.x numeric's to WordPress's strings.
+	 * Translate the topic sticky status type from dizkus numeric's to WordPress's strings.
 	 *
-	 * @param int $status phpBB 3.x numeric forum type
+	 * @param int $status dizkus numeric forum type
 	 * @return string WordPress safe
 	 */
 	public function callback_sticky_status( $status = 0 ) {
 		switch ( $status ) {
 			case 3 :
-				$status = 'super-sticky'; // phpBB Global Sticky 'topic_type = 3'
+				$status = 'super-sticky'; // dizkus Global Sticky 'topic_type = 3'
 				break;
 
 			case 2 :
-				$status = 'super-sticky'; // phpBB Announcement Sticky 'topic_type = 2'
+				$status = 'super-sticky'; // dizkus Announcement Sticky 'topic_type = 2'
 				break;
 
 			case 1 :
-				$status = 'sticky';       // phpBB Sticky 'topic_type = 1'
+				$status = 'sticky';       // dizkus Sticky 'topic_type = 1'
 				break;
 
 			case 0  :
 			default :
-				$status = 'normal';       // phpBB normal topic 'topic_type = 0'
+				$status = 'normal';       // dizkus normal topic 'topic_type = 0'
 				break;
 		}
 		return $status;
@@ -750,7 +690,7 @@ class dizkusZK extends BBP_Converter_Base {
 	/**
 	 * Verify the topic reply count.
 	 *
-	 * @param int $count phpBB v3.x reply count
+	 * @param int $count dizkus reply count
 	 * @return string WordPress safe
 	 */
 	public function callback_topic_reply_count( $count = 1 ) {
@@ -763,87 +703,87 @@ class dizkusZK extends BBP_Converter_Base {
 	 */
 	protected function callback_html( $field ) {
 
-		// Strips custom phpBB 'magic_url' and 'bbcode_uid' first from $field before parsing $field to parser.php
-		$phpbb_uid = $field;
-		$phpbb_uid = html_entity_decode( $phpbb_uid );
+		// Strips custom dizkus 'magic_url' and 'bbcode_uid' first from $field before parsing $field to parser.php
+		$dizkus_uid = $field;
+		$dizkus_uid = html_entity_decode( $dizkus_uid );
 
 		// Replace '[b:XXXXXXX]' with '<strong>'
-		$phpbb_uid = preg_replace( '/\[b:(.*?)\]/',   '<strong>',  $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[b:(.*?)\]/',   '<strong>',  $dizkus_uid );
 		// Replace '[/b:XXXXXXX]' with '</strong>'
-		$phpbb_uid = preg_replace( '/\[\/b:(.*?)\]/', '</strong>', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/b:(.*?)\]/', '</strong>', $dizkus_uid );
 
 		// Replace '[i:XXXXXXX]' with '<em>'
-		$phpbb_uid = preg_replace( '/\[i:(.*?)\]/',   '<em>',      $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[i:(.*?)\]/',   '<em>',      $dizkus_uid );
 		// Replace '[/i:XXXXXXX]' with '</em>'
-		$phpbb_uid = preg_replace( '/\[\/i:(.*?)\]/', '</em>',     $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/i:(.*?)\]/', '</em>',     $dizkus_uid );
 
 		// Replace '[u:XXXXXXX]' with '<u>'
-		$phpbb_uid = preg_replace( '/\[u:(.*?)\]/',   '<u>',       $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[u:(.*?)\]/',   '<u>',       $dizkus_uid );
 		// Replace '[/u:XXXXXXX]' with '</u>'
-		$phpbb_uid = preg_replace( '/\[\/u:(.*?)\]/', '</u>',      $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/u:(.*?)\]/', '</u>',      $dizkus_uid );
 
 		// Replace '[quote:XXXXXXX]' with '<blockquote>'
-		$phpbb_uid = preg_replace( '/\[quote:(.*?)\]/',          '<blockquote>',                   $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[quote:(.*?)\]/',          '<blockquote>',                   $dizkus_uid );
 		// Replace '[quote="$1"]' with '<em>$1 wrote:</em><blockquote>"
-		$phpbb_uid = preg_replace( '/\[quote="(.*?)":(.*?)\]/', '<em>@$1 wrote:</em><blockquote>', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[quote="(.*?)":(.*?)\]/', '<em>@$1 wrote:</em><blockquote>', $dizkus_uid );
 		// Replace '[/quote:XXXXXXX]' with '</blockquote>'
-		$phpbb_uid = preg_replace( '/\[\/quote:(.*?)\]/',       '</blockquote>',                   $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/quote:(.*?)\]/',       '</blockquote>',                   $dizkus_uid );
 
 		// Replace '[img:XXXXXXX]' with '<img src="'
-		$phpbb_uid = preg_replace( '/\[img:(.*?)\]/',   '<img src="', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[img:(.*?)\]/',   '<img src="', $dizkus_uid );
 		// Replace '[/img:XXXXXXX]' with ' alt="">'
-		$phpbb_uid = preg_replace( '/\[\/img:(.*?)\]/', '" alt="">',  $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/img:(.*?)\]/', '" alt="">',  $dizkus_uid );
 
 		// Replace '<!-- s$1 --><img src=\"{SMILIES_PATH}$2 -->' with '$1'
-		$phpbb_uid = preg_replace( '/<!-- s(.*?) --><img src=\"{SMILIES_PATH}(.*?)-->/', '$1', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/<!-- s(.*?) --><img src=\"{SMILIES_PATH}(.*?)-->/', '$1', $dizkus_uid );
 
 		// Replace '<!-- m --><a class="postlink" href="$1">$1</a><!-- m -->' with '$1'
-		$phpbb_uid = preg_replace( '/\<!-- m --\>\<a class="postlink" href="([^\[]+?)"\>([^\[]+?)\<\/a\>\<!-- m --\>/', '$1', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\<!-- m --\>\<a class="postlink" href="([^\[]+?)"\>([^\[]+?)\<\/a\>\<!-- m --\>/', '$1', $dizkus_uid );
 
 		// Replace '[url:XXXXXXX]$1[/url:XXXXXXX]' with '<a href="http://$1">$1</a>'
-		$phpbb_uid = preg_replace( '/\[url:(?:[^\]]+)\]([^\[]+?)\[\/url:(?:[^\]]+)\]/',       '<a href="http://$1">$1</a>',  $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[url:(?:[^\]]+)\]([^\[]+?)\[\/url:(?:[^\]]+)\]/',       '<a href="http://$1">$1</a>',  $dizkus_uid );
 		// Replace '[url=http://$1:XXXXXXX]$3[/url:XXXXXXX]' with '<a href="http://$1">$3</a>'
-		$phpbb_uid = preg_replace( '/\[url\=http\:\/\/(.*?)\:(.*?)\](.*?)\[\/url:(.*?)\]/i',  '<a href="http://$1">$3</a>',  $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[url\=http\:\/\/(.*?)\:(.*?)\](.*?)\[\/url:(.*?)\]/i',  '<a href="http://$1">$3</a>',  $dizkus_uid );
 		// Replace '[url=https://$1:XXXXXXX]$3[/url:XXXXXXX]' with '<a href="http://$1">$3</a>'
-		$phpbb_uid = preg_replace( '/\[url\=https\:\/\/(.*?)\:(.*?)\](.*?)\[\/url:(.*?)\]/i', '<a href="https://$1">$3</a>', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[url\=https\:\/\/(.*?)\:(.*?)\](.*?)\[\/url:(.*?)\]/i', '<a href="https://$1">$3</a>', $dizkus_uid );
 
 		// Replace '[email:XXXXXXX]' with '<a href="mailto:$2">$2</a>'
-		$phpbb_uid = preg_replace( '/\[email:(.*?)\](.*?)\[\/email:(.*?)\]/', '<a href="mailto:$2">$2</a>', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[email:(.*?)\](.*?)\[\/email:(.*?)\]/', '<a href="mailto:$2">$2</a>', $dizkus_uid );
 		// Replace '<!-- e -->no.one@domain.adr<!-- e -->' with '$1'
-		$phpbb_uid = preg_replace( '/\<!-- e --\>(.*?)\<!-- e --\>/', '$1', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\<!-- e --\>(.*?)\<!-- e --\>/', '$1', $dizkus_uid );
 
 		// Replace '[code:XXXXXXX]' with '<pre><code>'
-		$phpbb_uid = preg_replace( '/\[code:(.*?)\]/',   '<pre><code>',   $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[code:(.*?)\]/',   '<pre><code>',   $dizkus_uid );
 		// Replace '[/code:XXXXXXX]' with '</code></pre>'
-		$phpbb_uid = preg_replace( '/\[\/code:(.*?)\]/', '</code></pre>', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/code:(.*?)\]/', '</code></pre>', $dizkus_uid );
 
 		// Replace '[color=$1:XXXXXXXX]' with '<span style="color:$1">'
-		$phpbb_uid = preg_replace( '/\[color=(.*?)\:(.*?)\]/', '<span style="color: $1">', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[color=(.*?)\:(.*?)\]/', '<span style="color: $1">', $dizkus_uid );
 		// Replace '[/color:XXXXXXX]' with '</span>'
-		$phpbb_uid = preg_replace( '/\[\/color:(.*?)\]/',      '</span>',                  $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/color:(.*?)\]/',      '</span>',                  $dizkus_uid );
 
 		// Replace '[size=$1:XXXXXXXX]' with '<span style="font-size:$1%;">$3</span>'
-		$phpbb_uid = preg_replace( '/\[size=(.*?):(.*?)\]/', '<span style="font-size:$1%;">', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[size=(.*?):(.*?)\]/', '<span style="font-size:$1%;">', $dizkus_uid );
 		// Replace '[/size:XXXXXXX]' with ''
-		$phpbb_uid = preg_replace( '/\[\/size:(.*?)\]/',     '</span>',                       $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/size:(.*?)\]/',     '</span>',                       $dizkus_uid );
 
 		// Replace '[list:XXXXXXX]' with '<ul>'
-		$phpbb_uid = preg_replace( '/\[list:(.*?)\]/',     '<ul>',          $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[list:(.*?)\]/',     '<ul>',          $dizkus_uid );
 		// Replace '[list=a:XXXXXXX]' with '<ol type="a">'
-		$phpbb_uid = preg_replace( '/\[list=a:(.*?)\]/',   '<ol type="a">', $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[list=a:(.*?)\]/',   '<ol type="a">', $dizkus_uid );
 		// Replace '[list=1:XXXXXXX]' with '<ol>'
-		$phpbb_uid = preg_replace( '/\[list=1:(.*?)\]/',   '<ol>',          $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[list=1:(.*?)\]/',   '<ol>',          $dizkus_uid );
 		// Replace '[*:XXXXXXX]' with '<li>'
-		$phpbb_uid = preg_replace( '/\[\*:(.*?)\]/',       '<li>',          $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\*:(.*?)\]/',       '<li>',          $dizkus_uid );
 		// Replace '[/*:m:XXXXXXX]' with '</li>'
-		$phpbb_uid = preg_replace( '/\[\/\*:m:(.*?)\]/',   '</li>',         $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/\*:m:(.*?)\]/',   '</li>',         $dizkus_uid );
 		// Replace '[/list:u:XXXXXXX]' with '</ul>'
-		$phpbb_uid = preg_replace( '/\[\/list:u:(.*?)\]/', '</ul>',         $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/list:u:(.*?)\]/', '</ul>',         $dizkus_uid );
 		// Replace '[/list:o:XXXXXXX]' with '</ol>'
-		$phpbb_uid = preg_replace( '/\[\/list:o:(.*?)\]/', '</ol>',         $phpbb_uid );
+		$dizkus_uid = preg_replace( '/\[\/list:o:(.*?)\]/', '</ol>',         $dizkus_uid );
 
-		// Now that phpBB's 'magic_url' and 'bbcode_uid' have been stripped put the cleaned HTML back in $field
-		$field = $phpbb_uid;
+		// Now that dizkus's 'magic_url' and 'bbcode_uid' have been stripped put the cleaned HTML back in $field
+		$field = $dizkus_uid;
 
 		// Parse out any bbCodes in $field with the BBCode 'parser.php'
 		require_once( bbpress()->admin->admin_dir . 'parser.php' );
