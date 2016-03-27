@@ -35,7 +35,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Old forum id (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'forum_id',
 			'to_type'        => 'forum',
 			'to_fieldname'   => '_bbp_old_forum_id'
@@ -43,7 +43,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum parent id (If no parent, then 0, Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'cat_id',
 			'to_type'        => 'forum',
 			'to_fieldname'   => '_bbp_old_forum_parent_id'
@@ -51,7 +51,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum topic count (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'forum_topics',
 			'to_type'        => 'forum',
 			'to_fieldname'   => '_bbp_topic_count'
@@ -59,7 +59,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum reply count (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'forum_posts',
 			'to_type'        => 'forum',
 			'to_fieldname'   => '_bbp_reply_count'
@@ -67,7 +67,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum total topic count (Includes unpublished topics, Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'forum_topics',
 			'to_type'        => 'forum',
 			'to_fieldname'   => '_bbp_total_topic_count'
@@ -75,7 +75,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum total reply count (Includes unpublished replies, Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'forum_posts',
 			'to_type'        => 'forum',
 			'to_fieldname'   => '_bbp_total_reply_count'
@@ -83,7 +83,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum title.
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'forum_name',
 			'to_type'        => 'forum',
 			'to_fieldname'   => 'post_title'
@@ -91,7 +91,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum slug (Clean name to avoid conflicts)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_forums',
+			'from_tablename'  => 'dizkus_forums',
 			'from_fieldname'  => 'forum_name',
 			'to_type'         => 'forum',
 			'to_fieldname'    => 'post_name',
@@ -100,7 +100,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum description.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_forums',
+			'from_tablename'  => 'dizkus_forums',
 			'from_fieldname'  => 'forum_desc',
 			'to_type'         => 'forum',
 			'to_fieldname'    => 'post_content',
@@ -109,7 +109,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Forum display order (Starts from 1)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_forums',
+			'from_tablename' => 'dizkus_forums',
 			'from_fieldname' => 'forum_order',
 			'to_type'        => 'forum',
 			'to_fieldname'   => 'menu_order'
@@ -155,7 +155,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Subscribed forum ID (Stored in usermeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_subscription',
+			'from_tablename'  => 'dizkus_subscription',
 			'from_fieldname'  => 'forum_id',
 			'to_type'         => 'forum_subscriptions',
 			'to_fieldname'    => '_bbp_forum_subscriptions'
@@ -163,7 +163,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Subscribed user ID (Stored in usermeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_subscription',
+			'from_tablename'  => 'dizkus_subscription',
 			'from_fieldname'  => 'user_id',
 			'to_type'         => 'forum_subscriptions',
 			'to_fieldname'    => 'user_id',
@@ -174,7 +174,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Old topic id (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_topics',
+			'from_tablename' => 'dizkus_topics',
 			'from_fieldname' => 'topic_id',
 			'to_type'        => 'topic',
 			'to_fieldname'   => '_bbp_old_topic_id'
@@ -182,7 +182,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic reply count (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_replies',
 			'to_type'         => 'topic',
 			'to_fieldname'    => '_bbp_reply_count',
@@ -191,7 +191,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic total reply count (Includes unpublished replies, Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_replies',
 			'to_type'         => 'topic',
 			'to_fieldname'    => '_bbp_total_reply_count',
@@ -200,7 +200,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic parent forum id (If no parent, then 0. Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'forum_id',
 			'to_type'         => 'topic',
 			'to_fieldname'    => '_bbp_forum_id',
@@ -209,7 +209,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic author.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_poster',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_author',
@@ -218,11 +218,11 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic Author ip (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'poster_ip',
-			'join_tablename'  => 'zk_dizkus_topics',
+			'join_tablename'  => 'dizkus_topics',
 			'join_type'       => 'INNER',
-			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.topic_id = zk_dizkus_topics.topic_id GROUP BY topic_id',
+			'join_expression' => 'USING (topic_id) WHERE dizkus_posts.topic_id = dizkus_topics.topic_id GROUP BY topic_id',
 			'to_type'         => 'topic',
 			'to_fieldname'    => '_bbp_author_ip'
 		);
@@ -230,11 +230,11 @@ class dizkusZK extends BBP_Converter_Base {
 		// Topic content.
 		// Note: We join the 'posts' table because 'topics' does not include topic content.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'post_text',
-			'join_tablename'  => 'zk_dizkus_topics',
+			'join_tablename'  => 'dizkus_topics',
 			'join_type'       => 'INNER',
-			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.topic_id = zk_dizkus_topics.topic_idGROUP BY topic_id',
+			'join_expression' => 'USING (topic_id) WHERE dizkus_posts.topic_id = dizkus_topics.topic_idGROUP BY topic_id',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_content',
 			'callback_method' => 'callback_html'
@@ -242,7 +242,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic title.
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_topics',
+			'from_tablename' => 'dizkus_topics',
 			'from_fieldname' => 'topic_title',
 			'to_type'        => 'topic',
 			'to_fieldname'   => 'post_title'
@@ -250,7 +250,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic slug (Clean name to avoid conflicts)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_title',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_name',
@@ -259,7 +259,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic status (Open or Closed)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_status',
 			'to_type'         => 'topic',
 			'to_fieldname'    => '_bbp_old_closed_status_id',
@@ -268,7 +268,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic parent forum id (If no parent, then 0)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'forum_id',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_parent',
@@ -277,7 +277,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Sticky status (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'sticky',
 			'to_type'         => 'topic',
 			'to_fieldname'    => '_bbp_old_sticky_status_id',
@@ -286,35 +286,35 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Topic dates.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_time',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_date',
 			'callback_method' => 'callback_datetime'
 		);
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_time',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_date_gmt',
 			'callback_method' => 'callback_datetime'
 		);
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_time',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_modified',
 			'callback_method' => 'callback_datetime'
 		);
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_time',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_modified_gmt',
 			'callback_method' => 'callback_datetime'
 		);
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_time',
 			'to_type'         => 'topic',
 			'to_fieldname'    => '_bbp_last_active_time',
@@ -331,7 +331,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Subscribed topic ID (Stored in usermeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topic_subscription',
+			'from_tablename'  => 'dizkus_topic_subscription',
 			'from_fieldname'  => 'topic_id',
 			'to_type'         => 'topic_subscriptions',
 			'to_fieldname'    => '_bbp_subscriptions'
@@ -339,7 +339,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Subscribed user ID (Stored in usermeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topic_subscription',
+			'from_tablename'  => 'dizkus_topic_subscription',
 			'from_fieldname'  => 'user_id',
 			'to_type'         => 'topic_subscriptions',
 			'to_fieldname'    => 'user_id',
@@ -356,7 +356,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Old reply id (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_posts',
+			'from_tablename' => 'dizkus_posts',
 			'from_fieldname' => 'post_id',
 			'to_type'        => 'reply',
 			'to_fieldname'   => '_bbp_old_reply_id'
@@ -364,17 +364,17 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Setup reply section table joins
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_topics',
+			'from_tablename'  => 'dizkus_topics',
 			'from_fieldname'  => 'topic_id',
-			'join_tablename'  => 'zk_dizkus_posts',
+			'join_tablename'  => 'dizkus_posts',
 			'join_type'       => 'INNER',
-			'join_expression' => 'USING (topic_id) WHERE zk_dizkus_posts.topic_id = zk_dizkus_topics.topic_id',
+			'join_expression' => 'USING (topic_id) WHERE dizkus_posts.topic_id = dizkus_topics.topic_id',
 			'to_type'         => 'reply'
 		);
 
 		// Reply parent forum id (If no parent, then 0. Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'forum_id',
 			'to_type'         => 'reply',
 			'to_fieldname'    => '_bbp_forum_id',
@@ -383,7 +383,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Reply parent topic id (If no parent, then 0. Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'topic_id',
 			'to_type'         => 'reply',
 			'to_fieldname'    => '_bbp_topic_id',
@@ -392,7 +392,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Reply author ip (Stored in postmeta)
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_dizkus_posts',
+			'from_tablename' => 'dizkus_posts',
 			'from_fieldname' => 'poster_ip',
 			'to_type'        => 'reply',
 			'to_fieldname'   => '_bbp_author_ip'
@@ -400,7 +400,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Reply author.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'poster_id',
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_author',
@@ -409,7 +409,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Reply content.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'post_text',
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_content',
@@ -418,7 +418,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Reply parent topic id (If no parent, then 0)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'topic_id',
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_parent',
@@ -427,28 +427,28 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Reply dates.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'post_time',
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_date',
 			'callback_method' => 'callback_datetime'
 		);
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'post_time',
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_date_gmt',
 			'callback_method' => 'callback_datetime'
 		);
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'post_time',
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_modified',
 			'callback_method' => 'callback_datetime'
 		);
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_dizkus_posts',
+			'from_tablename'  => 'dizkus_posts',
 			'from_fieldname'  => 'post_time',
 			'to_type'         => 'reply',
 			'to_fieldname'    => 'post_modified_gmt',
@@ -460,7 +460,7 @@ class dizkusZK extends BBP_Converter_Base {
 		// Store old user id (Stored in usermeta)
 		// Don't import users with id 2, these are dizkus bot/crawler accounts
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
+			'from_tablename'  => 'users',
 			'from_fieldname'  => 'pn_uid',
 			'to_type'         => 'user',
 			'to_fieldname'    => '_bbp_old_user_id'
@@ -468,7 +468,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// Store old user password (Stored in usermeta serialized with salt)
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
+			'from_tablename'  => 'users',
 			'from_fieldname'  => 'pn_pass',
 			'to_type'         => 'user',
 			'to_fieldname'    => '_bbp_password',
@@ -484,7 +484,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// User name.
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_users',
+			'from_tablename' => 'users',
 			'from_fieldname' => 'pn_uname',
 			'to_type'        => 'user',
 			'to_fieldname'   => 'user_login'
@@ -492,7 +492,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// User email.
 		$this->field_map[] = array(
-			'from_tablename' => 'zk_users',
+			'from_tablename' => 'users',
 			'from_fieldname' => 'pn_email',
 			'to_type'        => 'user',
 			'to_fieldname'   => 'user_email'
@@ -500,7 +500,7 @@ class dizkusZK extends BBP_Converter_Base {
 
 		// User registered.
 		$this->field_map[] = array(
-			'from_tablename'  => 'zk_users',
+			'from_tablename'  => 'users',
 			'from_fieldname'  => 'pn_user_regdate',
 			'to_type'         => 'user',
 			'to_fieldname'    => 'user_registered',
