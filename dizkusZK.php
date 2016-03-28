@@ -234,7 +234,7 @@ class dizkusZK extends BBP_Converter_Base {
 			'from_fieldname'  => 'post_text',
 			'join_tablename'  => 'dizkus_topics',
 			'join_type'       => 'INNER',
-			'join_expression' => 'USING (topic_id) WHERE dizkus_posts.topic_id = dizkus_topics.topic_idGROUP BY topic_id',
+			'join_expression' => 'USING (topic_id) WHERE dizkus_posts.topic_id = dizkus_topics.topic_id GROUP BY topic_id',
 			'to_type'         => 'topic',
 			'to_fieldname'    => 'post_content',
 			'callback_method' => 'callback_html'
